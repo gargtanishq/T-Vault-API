@@ -43,7 +43,7 @@ router.get("/:postId", async (req, res) => {
 //delete a specific post
 router.delete("/:postId", async (req, res) => {
   try {
-    const removedPost = await Post.remove({ _id: req.params.postId });
+    const removedPost = await Post.deleteOne({ _id: req.params.postId });
     res.json(removedPost);
   } catch (err) {
     res.json({ message: err });
@@ -55,7 +55,14 @@ router.patch("/:postId", async (req, res) => {
   try {
     const updatedPost = await Post.updateOne(
       { _id: req.params.postId },
-      { $set: { owner: req.body.owner } }
+      {
+        $set: {
+          SafeName: req.body.SafeName,
+          Owner: req.body.Owner,
+          Description: req.body.Description,
+          Type: req.body.Type
+        },
+      }
     );
     res.json(updatedPost);
   } catch (err) {
